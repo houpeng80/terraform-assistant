@@ -24,7 +24,7 @@ SYSTEM_PROMPT_TEMPLATE = """
 
 - 判断某个API是否已被 terraform 支持
 
-- 判断用户的需求是否被resource/data_source支持
+- 判断用户的需求是否被resource/data_source支持，需要根据用于的语义去判断resource_type(创建/管理)是resource还是data_source(查询)
 </ability>
 
 <critical_reminders>

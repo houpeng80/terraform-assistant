@@ -88,7 +88,7 @@ def api_param_check(service_name: str, api_method: str, api_url: str) -> tuple[b
 
 @tool
 def rag_search_tool(resource_type: str, content: str) -> list[str]:
-    """ this tool is used to get the related resource/data_source info by resource_type and context,
+    """ this tool is used to get the related resource/data_source info by resource_type and context, resource_type can only be resource/data_source,
     triggered only when get the related resource/data_source info by resource_type and context"""
 
     resource_type = resource_type.lower()
