@@ -104,7 +104,7 @@ def get_intents() -> str:
 
 - query_resource_by_content：查询是否支持查询某个资源、管理某个资源、创建某个资源, 提取用户的关键意图内容，忽略其中的询问以及语气词。
    - 示例："支持创建备份吗"、"可以创建实例吗"
-   - 输出：{{"intent": "query_resource_by_content", "confidence": 0.8, params: { "context":"创建RDS实例"}, "missing_params":["api_method"], "reasoning": "用户咨询是否支持创建RDS实例，但是没有说明服务名"}}
+   - 输出：{{"intent": "query_resource_by_content", "confidence": 0.8, params: { "context":"创建RDS实例"}, "missing_params":["service_type"], "reasoning": "用户咨询是否支持创建RDS实例，但是没有说明服务名"}}
    
    - 示例："支持创建RDS备份吗"、"可以创建DCS实例吗"
    - 输出：{{"intent": "query_resource_by_content", "confidence": 0.95, params: {"service_type":"rds", "context":"创建RDS实例"}, "reasoning": "用户咨询是否支持创建RDS实例"}}
