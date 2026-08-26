@@ -47,7 +47,7 @@ class LeaderAgent:
         self.agent = self.create_terrapilot_agent()
         self.intent_recognize = IntentRecognize(config)
         self.router_manager = RouterManager(self.intent_recognize)
-        self.worker_scheduler = WorkerScheduler()
+        self.worker_scheduler = WorkerScheduler(max_retries=self.agent_config.worker_max_retries)
         # init_local_code()
         # start_scheduler_sync_git_code()
 
@@ -90,7 +90,9 @@ class LeaderAgent:
         # 路由、判断、人工确认
         route, msg = self.router_manager.router(intent_res, histories)
         print("======================================================")
-        print("intent: ", intent_res. intent)
+        print("intent: ", intent_res.intent)
+        print("params: ", intent_res.params)
+        print("missing_params: ", intent_res.missing_params)
         print("route: ", route)
         print("msg: ", msg)
         print("======================================================")

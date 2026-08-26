@@ -10,6 +10,7 @@ from langchain_core.messages import HumanMessage
 
 from backend.config.config import get_agent_config
 from backend.leader_agent.agent_state import TerrapilotAgentState
+from backend.memory.summarization_hook import memory_flush_hook
 from backend.middleware.log_middleware import LoggingMiddleware
 from backend.middleware.token_usage_middleware import TokenUsageMiddleware
 from backend.model import get_model
@@ -90,6 +91,7 @@ class IntentRecognize:
                 ContextSummarizationMiddleware(
                     model=self.model,
                     agent_name=AGENT_NAME,
+                    before_summarization=[memory_flush_hook],
                     trigger=[
                         ("messages", self.agent_config.summarization_trigger_messages),
                         ("tokens", self.agent_config.summarization_trigger_tokens)

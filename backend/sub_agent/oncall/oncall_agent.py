@@ -11,6 +11,7 @@ from langgraph.graph.message import REMOVE_ALL_MESSAGES
 from backend.config.config import get_agent_config
 from backend.middleware.cycle_check_middleware import CycleCheckMiddleware
 from backend.middleware.summarization_middleware import ContextSummarizationMiddleware
+from backend.middleware.todo_Middleware import TodoMiddleware
 from backend.model import get_model
 from backend.middleware.log_middleware import LoggingMiddleware
 from backend.middleware.token_usage_middleware import TokenUsageMiddleware
@@ -126,5 +127,6 @@ class OncallAgent(Worker):
                 ],
                 keep=("tokens", self.agent_config.summarization_trigger_tokens/3)
             ),
+            TodoMiddleware(),
         ]
         return middlewares

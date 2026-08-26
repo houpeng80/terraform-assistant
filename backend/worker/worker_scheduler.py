@@ -20,7 +20,7 @@ class WorkerScheduler:
         try:
             worker = self.registry.get_worker_by_intent(request.intent)
         except KeyError as e:
-            return WorkerExecutionResult(False, error=f"Worker by intent '{request.intent}' not found: {e}", duration=0.0)
+            return WorkerExecutionResult(False, error=f"[ERROR_FLAG] Worker by intent '{request.intent}' not found: {e}", duration=0.0)
 
         while attempt < self.max_retries:
             try:
@@ -39,7 +39,7 @@ class WorkerScheduler:
                     break
 
         duration = time.time() - start_time
-        error_msg = f"Worker '{worker.name}' failed after {attempt} attempts: {last_error}"
+        error_msg = f"[ERROR_FLAG] Worker '{worker.name}' failed after {attempt} attempts: {last_error}"
         return WorkerExecutionResult(False, error=error_msg, duration=duration)
 
     @staticmethod
