@@ -29,6 +29,11 @@ model_max_retries: 20
 tool_max_retries: 3
 
 # ============================================================================
+# The max_retries of the worker, defaults to 3
+# ============================================================================
+worker_max_retries: 3
+
+# ============================================================================
 # The messages count when summarization is triggered, defaults to 10
 # ============================================================================
 summarization_trigger_messages: 6

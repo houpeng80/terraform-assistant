@@ -28,5 +28,4 @@ PLANNER_PROMPT_TEMPLATE = """
    2. 如果用户指定只生成其中的某一种或者某几种，那么就只生成所需的步骤，如：用户说只生成代码和文档，那么 steps 应该包含 generate_code 和 generate_doc
    3. 如果用户指定不生成某一种或者某几种步骤，那么就只生成剩下的步骤，如：用户说不生成文档，那么 steps 应该包含 generate_code 和 generate_test
 </step>
-
 """

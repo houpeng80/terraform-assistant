@@ -23,6 +23,7 @@ class AgentConfig(BaseModel):
     timeout: int = Field(default=300, description="The timeout of the model")
     model_max_retries: int = Field(default=10, description="The max retries of the model")
     tool_max_retries: int = Field(default=3, description="The max retries of the model")
+    worker_max_retries: int = Field(default=3, description="The max retries of the worker")
 
     summarization_trigger_messages: int = Field(default=10, description="The messages count when summarization is triggered")
     summarization_trigger_tokens: int = Field(default=100, description="The tokens count when summarization is triggered")
@@ -83,11 +84,11 @@ class AgentConfig(BaseModel):
             if not Path.exists(path):
                 raise FileNotFoundError(f"Config file specified by param `config_path` not found at {path}")
             return path
-        elif os.getenv("ASSISTANT_AGENT_CONFIG_PATH"):
-            path = Path(os.getenv("ASSISTANT_AGENT_CONFIG_PATH"))
+        elif os.getenv("TERRAPILOT_AGENT_CONFIG_PATH"):
+            path = Path(os.getenv("TERRAPILOT_AGENT_CONFIG_PATH"))
             if not Path.exists(path):
                 raise FileNotFoundError(
-                    f"Config file specified by environment variable `ASSISTANT_AGENT_CONFIG_PATH` not found at {path}")
+                    f"Config file specified by environment variable `TERRAPILOT_AGENT_CONFIG_PATH` not found at {path}")
             return path
         else:
             for path in _default_config_candidates():
