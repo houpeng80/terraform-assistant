@@ -10,7 +10,7 @@ class Intent(TypedDict):
     reasoning: str
     result: str
 
-class TerrapilotAgentState(AgentState):
+class TerraformAssistantAgentState(AgentState):
     # 基础信息
     request_message: str  # 用户原始请求
 

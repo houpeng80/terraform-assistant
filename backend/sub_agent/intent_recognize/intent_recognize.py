@@ -9,7 +9,7 @@ from langgraph.checkpoint.memory import InMemorySaver
 from langchain_core.messages import HumanMessage
 
 from backend.config.config import get_agent_config
-from backend.leader_agent.agent_state import TerrapilotAgentState
+from backend.leader_agent.agent_state import TerraformAssistantAgentState
 from backend.memory.summarization_hook import memory_flush_hook
 from backend.middleware.log_middleware import LoggingMiddleware
 from backend.middleware.token_usage_middleware import TokenUsageMiddleware
@@ -66,7 +66,7 @@ class IntentRecognize:
         self.config = config
         self.agent = self.create_intent_recognize_agent()
 
-    def intent_recognize(self, agent_state: TerrapilotAgentState) -> tuple[TerrapilotAgentState, IntentResult]:
+    def intent_recognize(self, agent_state: TerraformAssistantAgentState) -> tuple[TerraformAssistantAgentState, IntentResult]:
         i = 0
         while i < 3:
             result = self.agent.invoke(
@@ -99,7 +99,7 @@ class IntentRecognize:
                     keep=("tokens", self.agent_config.summarization_trigger_tokens / 3)
                 ),
             ],
-            state_schema=TerrapilotAgentState,
+            state_schema=TerraformAssistantAgentState,
         )
         return agent
 

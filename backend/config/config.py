@@ -84,11 +84,11 @@ class AgentConfig(BaseModel):
             if not Path.exists(path):
                 raise FileNotFoundError(f"Config file specified by param `config_path` not found at {path}")
             return path
-        elif os.getenv("TERRAPILOT_AGENT_CONFIG_PATH"):
-            path = Path(os.getenv("TERRAPILOT_AGENT_CONFIG_PATH"))
+        elif os.getenv("TERRAFORM_ASSISTANT_AGENT_CONFIG_PATH"):
+            path = Path(os.getenv("TERRAFORM_ASSISTANT_AGENT_CONFIG_PATH"))
             if not Path.exists(path):
                 raise FileNotFoundError(
-                    f"Config file specified by environment variable `TERRAPILOT_AGENT_CONFIG_PATH` not found at {path}")
+                    f"Config file specified by environment variable `TERRAFORM_ASSISTANT_AGENT_CONFIG_PATH` not found at {path}")
             return path
         else:
             for path in _default_config_candidates():

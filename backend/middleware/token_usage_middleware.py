@@ -5,28 +5,28 @@ from langchain.agents.middleware import AgentMiddleware
 from langchain_core.messages import AIMessage
 from langgraph.runtime import Runtime
 
-from backend.leader_agent.agent_state import TerrapilotAgentState
+from backend.leader_agent.agent_state import TerraformAssistantAgentState
 
 logger = logging.getLogger(__name__)
 
-class TokenUsageMiddleware(AgentMiddleware[TerrapilotAgentState]):
+class TokenUsageMiddleware(AgentMiddleware[TerraformAssistantAgentState]):
     """Logs token usage from model response usage_metadata."""
 
-    state_schema = TerrapilotAgentState
+    state_schema = TerraformAssistantAgentState
 
     def __init__(self, agent_name: str | None = None):
         super().__init__()
         self._agent_name = agent_name
 
     @override
-    def after_model(self, state: TerrapilotAgentState, runtime: Runtime) -> dict[str, Any] | None:
+    def after_model(self, state: TerraformAssistantAgentState, runtime: Runtime) -> dict[str, Any] | None:
         return self._log_usage(state)
 
     @override
-    async def aafter_model(self, state: TerrapilotAgentState, runtime: Runtime) -> dict[str, Any] | None:
+    async def aafter_model(self, state: TerraformAssistantAgentState, runtime: Runtime) -> dict[str, Any] | None:
         return self._log_usage(state)
 
-    def _log_usage(self, state: TerrapilotAgentState) -> dict | None:
+    def _log_usage(self, state: TerraformAssistantAgentState) -> dict | None:
         messages = state.get("messages", [])
         if not messages:
             return None
@@ -52,7 +52,7 @@ class TokenUsageMiddleware(AgentMiddleware[TerrapilotAgentState]):
         }
 
     @override
-    def after_agent(self, state: TerrapilotAgentState, runtime: Runtime) -> dict[str, Any] | None:
+    def after_agent(self, state: TerraformAssistantAgentState, runtime: Runtime) -> dict[str, Any] | None:
         logger.info(
             "agent {%s} token usage statistics: input_statistics=%s output_statistics=%s total_statistics=%s",
             self._agent_name,
@@ -63,7 +63,7 @@ class TokenUsageMiddleware(AgentMiddleware[TerrapilotAgentState]):
         return None
 
     @override
-    async def aafter_agent(self, state: TerrapilotAgentState, runtime: Runtime) -> dict[str, Any] | None:
+    async def aafter_agent(self, state: TerraformAssistantAgentState, runtime: Runtime) -> dict[str, Any] | None:
         logger.info(
             "agent {%s} token usage statistics: input_statistics=%s output_statistics=%s total_statistics=%s",
             self._agent_name,
