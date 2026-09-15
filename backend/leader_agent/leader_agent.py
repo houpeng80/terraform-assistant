@@ -8,7 +8,7 @@ from langchain_core.runnables import RunnableConfig
 from langgraph.checkpoint.memory import InMemorySaver
 
 from backend.config.config import get_agent_config
-from backend.leader_agent.agent_state import TerrapilotAgentState, Intent
+from backend.leader_agent.agent_state import TerraformAssistantAgentState, Intent
 from backend.memory.queue import get_memory_queue
 from backend.memory.summarization_hook import memory_flush_hook
 from backend.middleware.cycle_check_middleware import CycleCheckMiddleware
@@ -27,7 +27,7 @@ from backend.worker.workers import WorkerRequest
 
 logger = logging.getLogger(__name__)
 
-AGENT_NAME = "terraform-pilot"
+AGENT_NAME = "terraform-assistant"
 
 def init_local_code():
     exists = test_code_exists()
@@ -44,7 +44,7 @@ class LeaderAgent:
         self.agent_config = get_agent_config()
         self.config = config
         self.check_pointer = InMemorySaver()
-        self.agent = self.create_terrapilot_agent()
+        self.agent = self.create_terraform_assistant_agent()
         self.intent_recognize = IntentRecognize(config)
         self.router_manager = RouterManager(self.intent_recognize)
         self.worker_scheduler = WorkerScheduler(max_retries=self.agent_config.worker_max_retries)
@@ -54,7 +54,7 @@ class LeaderAgent:
     def __del__(self):
         stop_scheduler_sync_git_code()
 
-    def init_agent_state(self, question:str, histories: list[Intent]) -> TerrapilotAgentState:
+    def init_agent_state(self, question:str, histories: list[Intent]) -> TerraformAssistantAgentState:
         initial_state = {
             "messages": [HumanMessage(content=question)],
             "histories": histories,
@@ -68,7 +68,7 @@ class LeaderAgent:
     def invoke(self):
         while True:
             user_input = input("\nUser: ")
-            if user_input.lower() in ["q", "quit"]:
+            if user_input.lower() in ["q", "quit", "exit"]:
                 # save thc cache queue to memory
                 get_memory_queue().flush()
                 break
@@ -153,13 +153,13 @@ class LeaderAgent:
         print("last state: ",state)
         return state
 
-    def create_terrapilot_agent(self):
+    def create_terraform_assistant_agent(self):
         agent = create_agent(
             name=AGENT_NAME,
             model=self.model,
             checkpointer=self.check_pointer,
             middleware=self.build_middlewares(),
-            state_schema=TerrapilotAgentState
+            state_schema=TerraformAssistantAgentState
         )
         return agent
 

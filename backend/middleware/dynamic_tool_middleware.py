@@ -10,15 +10,15 @@ from langgraph.prebuilt.tool_node import ToolCallRequest
 from langgraph.types import Command
 
 from backend.config.config import get_agent_config
-from backend.leader_agent.agent_state import TerrapilotAgentState
+from backend.leader_agent.agent_state import TerraformAssistantAgentState
 from backend.tool.tool_executor import ToolExecutor
 from backend.tool.tool_registry import ToolRegistry
 
 logger = logging.getLogger(__name__)
 
-class DynamicToolMiddleware(AgentMiddleware[TerrapilotAgentState]):
+class DynamicToolMiddleware(AgentMiddleware[TerraformAssistantAgentState]):
 
-    state_schema = TerrapilotAgentState
+    state_schema = TerraformAssistantAgentState
 
     def __init__(self, agent_name: str, tool_registry: ToolRegistry):
         super().__init__()
